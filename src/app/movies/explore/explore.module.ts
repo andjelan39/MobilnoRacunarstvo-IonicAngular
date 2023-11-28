@@ -7,6 +7,8 @@ import { IonicModule } from '@ionic/angular';
 import { ExplorePageRoutingModule } from './explore-routing.module';
 
 import { ExplorePage } from './explore.page';
+import { MovieElementComponent } from '../movie-element/movie-element.component';
+import { AddMovieModalComponent } from '../add-movie-modal/add-movie-modal.component';
 
 @NgModule({
   imports: [
@@ -15,6 +17,7 @@ import { ExplorePage } from './explore.page';
     IonicModule,
     ExplorePageRoutingModule
   ],
-  declarations: [ExplorePage]
+  declarations: [ExplorePage, MovieElementComponent, AddMovieModalComponent],
+  //entryComponents: [AddMovieModalComponent],
 })
 export class ExplorePageModule {}

@@ -7,6 +7,10 @@ const routes: Routes = [
   {
     path: '',
     component: ExplorePage
+  },
+  {
+    path: ':movieId',
+    loadChildren: () => import('./movie-details/movie-details.module').then( m => m.MovieDetailsPageModule)
   }
 ];
 

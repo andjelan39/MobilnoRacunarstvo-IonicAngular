@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/movies/tabs/explore"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{movie.title}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <img [src]="movie.coverUrl" />
+  <div class="movie-card-title">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="8">
+          <h4>{{movie.title}}</h4>
+          <span> DIRECTED BY <br /><b>{{movie.director}}</b></span>
+          <p class="span-year-genre">{{movie.releaseYear}} · {{movie.genre}}</p><br />
+        </ion-col>
+        <ion-col size="4">
+          <img [src]="movie.imageUrl" class="movie-card-img" />
+        </ion-col>
+      </ion-row>
+      <ion-row class="bottomRow">
+        <ion-col>
+          <p>
+            {{movie.description}}
+          </p>
+        </ion-col>
+      </ion-row>
+      <ion-row class="lastRow">
+        <ion-col>
+            <span> CAST <br /><b>{{movie.cast}}</b></span>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+            <span> REVIEWS <br /></span>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+</ion-content>

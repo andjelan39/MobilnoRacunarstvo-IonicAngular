@@ -1,13 +1,28 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>explore</ion-title>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+    <ion-title>Home</ion-title>
+    <!--<ion-buttons slot="end">
+      <ion-fab-button (click)="openModal()" size="small" color="success">
+        <ion-icon name="add-sharp"></ion-icon>
+      </ion-fab-button>
+    </ion-buttons>-->
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">explore</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-list>
+    <app-movie-element
+      *ngFor="let movie of movies"
+      [movie]="movie"
+    ></app-movie-element>
+  </ion-list>
+
+  <ion-fab vertical="bottom" horizontal="end" slot="fixed">
+    <ion-fab-button (click)="openModal()" color="primary">
+      <ion-icon name="add-sharp"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
 </ion-content>

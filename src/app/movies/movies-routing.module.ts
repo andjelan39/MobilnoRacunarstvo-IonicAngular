@@ -5,17 +5,29 @@ import { MoviesPage } from './movies.page';
 
 const routes: Routes = [
   {
+    path: 'tabs',
+    component: MoviesPage,
+    children: [
+      {
+        path: 'explore',
+        loadChildren: () => import('./explore/explore.module').then( m => m.ExplorePageModule)
+      },
+      {
+        path: 'my-movies',
+        loadChildren: () => import('./my-movies/my-movies.module').then( m => m.MyMoviesPageModule)
+      },
+      {
+        path: '',
+        redirectTo: '/movies/tabs/explore',
+        pathMatch: 'full'
+      }
+    ]
+  },
+  {
     path: '',
-    component: MoviesPage
+    redirectTo: '/movies/tabs/explore',
+    pathMatch: 'full'
   },
-  {
-    path: 'explore',
-    loadChildren: () => import('./explore/explore.module').then( m => m.ExplorePageModule)
-  },
-  {
-    path: 'my-movies',
-    loadChildren: () => import('./my-movies/my-movies.module').then( m => m.MyMoviesPageModule)
-  }
 ];
 
 @NgModule({
