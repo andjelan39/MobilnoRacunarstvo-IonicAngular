@@ -1,39 +1,33 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>register</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="light" routerLink="/log-in">LOGIN</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <form [formGroup]="registerForm">
+
+  <div id="header">
+    <img src="assets/flicks.svg" />
+    <h1>Create Your Account</h1>
+  </div>
+
+  <form [formGroup]="registerForm" id="form">
     <ion-grid>
       <ion-row>
-        <ion-col size-sm="3" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Name</ion-label>
-            <ion-input type="text" formControlName="name"></ion-input>
-          </ion-item>
-        </ion-col>
-        <ion-col size-sm="3">
-          <ion-item>
-            <ion-label position="floating">Last Name</ion-label>
-            <ion-input type="text" formControlName="lastname"></ion-input>
-          </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
         <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Email</ion-label>
-            <ion-input type="email" formControlName="email" errorText="Invalid email format."></ion-input>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" formControlName="name" placeholder="First Name"></ion-input>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Password</ion-label>
-            <ion-input type="Password" formControlName="password" errorText="Password must be at least 7 chracters long."></ion-input>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" formControlName="lastname" placeholder="Last Name"></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="email" formControlName="email" errorText="Invalid email format." placeholder="Enter your email..."></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="password" formControlName="password" errorText="Password must be at least 7 chracters long." placeholder="Enter your password..."></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
@@ -44,4 +38,9 @@
       </ion-row>
     </ion-grid>
   </form>
+
+  <div id="header">
+    <p>By pressing 'Register' you agree to <br> our terms and conditions.</p>
+  </div>
+
 </ion-content>

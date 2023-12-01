@@ -31,6 +31,8 @@ export class AddMovieModalComponent implements OnInit {
           director: this.form.value['director'],
           cast: this.form.value['cast'],
           description: this.form.value['description'],
+          imageUrl: this.form.value['imageUrl'],
+          coverUrl: this.form.value['coverUrl']
         },
       },
       'confirm'

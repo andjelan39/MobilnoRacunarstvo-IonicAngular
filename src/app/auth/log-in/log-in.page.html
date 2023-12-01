@@ -1,37 +1,39 @@
-<ion-header [translucent]="true">
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>log-in</ion-title>
+    <ion-buttons slot="end">
+      <ion-button color="light" routerLink="/register">REGISTER</ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
 
-  <ion-item class="ion-margin-bottom">
-    <ion-input type="email" placeholder="Enter your email..."></ion-input>
-  </ion-item>
+  <div id="header">
+    <img src="assets/flicks.svg" />
+    <h1>Log Into Your Account</h1>
+  </div>
 
-  <form #logInForm="ngForm" (ngSubmit)="onLogIn(logInForm)">
+  <form #logInForm="ngForm" (ngSubmit)="onLogIn(logInForm)" id="form">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
           <ion-list>
-            <ion-item>
-              <ion-input type="email" ngModel name="email" required email #email="ngModel" label="Email"></ion-input>
+            <ion-item class="ion-margin-bottom inputField">
+              <ion-input type="email" placeholder="Enter your email..." ngModel name="email" required email #email="ngModel"></ion-input>
             </ion-item>
-            <ion-item lines="none" *ngIf="email.invalid && email.touched">
-              <ion-label>Email must be valid.</ion-label>
+            <ion-item lines="none" *ngIf="email.invalid && email.touched" class="validMessage">
+              <p>Email must be valid.</p>
             </ion-item>
-            <ion-item>
-              <ion-label position="floating">Password</ion-label>
-              <ion-input type="Password" ngModel name="password" required minlength="7" #password="ngModel"></ion-input>
+            <ion-item class="ion-margin-bottom inputField">
+              <ion-input type="password" placeholder="Enter your password..." ngModel name="password" required minlength="7" #password="ngModel"></ion-input>
             </ion-item>
-            <ion-item lines="none" *ngIf="password.invalid && password.touched">
-              <ion-label>Password must be at least 7 characters long.</ion-label>
+            <ion-item lines="none" *ngIf="password.invalid && password.touched" class="validMessage">
+              <p>Password must be at least 7 characters long.</p>
             </ion-item>
           </ion-list>
         </ion-col>
       </ion-row>
-      <ion-row>
+      <ion-row class="buttonRow">
         <ion-col size="6" offset="3">
           <ion-button type="submit" expand="block" shape="round" [disabled]="logInForm.invalid">Login</ion-button>
         </ion-col>

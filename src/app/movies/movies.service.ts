@@ -1,11 +1,25 @@
 import { Injectable } from '@angular/core';
 import { Movie } from './movie.model';
+import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
+import { BehaviorSubject, map, switchMap, take, tap } from 'rxjs';
+
+interface MovieData {
+  title: string;
+  releaseYear: number;
+  genre: string;
+  director: string;
+  cast: string;
+  description: string;
+  imageUrl: string;
+  coverUrl: string;
+}
 
 @Injectable({
   providedIn: 'root',
 })
 export class MoviesService {
-  movies: Movie[] = [
+  /*oldmovies: Movie[] = [
     {
       id: 'm1',
       title: 'American Psycho',
@@ -17,7 +31,8 @@ export class MoviesService {
       cast: 'Christian Bale · Willem Dafoe · Chloe Sevigny',
       imageUrl:
         'https://m.media-amazon.com/images/M/MV5BZTM2ZGJmNjQtN2UyOS00NjcxLWFjMDktMDE2NzMyNTZlZTBiXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
-      coverUrl: 'https://i.guim.co.uk/img/media/5ca5fa80076dbe8f0ea2ad399dcc655d6667ed82/0_48_3504_2103/master/3504.jpg?width=1200&quality=85&auto=format&fit=max&s=185dbcbc51bcecf499da469cc58dcf02',
+      coverUrl:
+        'https://i.guim.co.uk/img/media/5ca5fa80076dbe8f0ea2ad399dcc655d6667ed82/0_48_3504_2103/master/3504.jpg?width=1200&quality=85&auto=format&fit=max&s=185dbcbc51bcecf499da469cc58dcf02',
     },
     {
       id: 'm2',
@@ -25,7 +40,8 @@ export class MoviesService {
       releaseYear: 1996,
       director: 'Danny Boyle',
       genre: 'thriller',
-      description: 'A wild, freeform, Rabelaisian trip through the darkest recesses of Edinburgh low-life, focusing on Mark Renton and his attempt to give up his heroin habit, and how the latter affects his relationship with family and friends: Sean Connery wannabe Sick Boy, dimbulb Spud and a psycho Begbie.',
+      description:
+        'A wild, freeform, Rabelaisian trip through the darkest recesses of Edinburgh low-life, focusing on Mark Renton and his attempt to give up his heroin habit, and how the latter affects his relationship with family and friends: Sean Connery wannabe Sick Boy, dimbulb Spud and a psycho Begbie.',
       cast: 'Ewan McGregor · Jonny Lee Miller · Ewen Bremner',
       imageUrl:
         'https://i.etsystatic.com/32739938/r/il/500217/3617286456/il_794xN.3617286456_roo0.jpg',
@@ -42,7 +58,8 @@ export class MoviesService {
       cast: 'Leon Lai · Michelle Reis · Takeshi Kaneshiro',
       imageUrl:
         'https://preview.redd.it/whats-your-favorite-movie-poster-by-color-day-4-green-v0-5dfmizri1jub1.png?width=640&crop=smart&auto=webp&s=a31670212902272df20b0bec718c7911fa3edb12',
-      coverUrl: 'https://miro.medium.com/v2/resize:fit:1400/1*2yXRX4hNnGRoVWIjeAkfTg.jpeg',
+      coverUrl:
+        'https://miro.medium.com/v2/resize:fit:1400/1*2yXRX4hNnGRoVWIjeAkfTg.jpeg',
     },
     {
       id: 'm4',
@@ -55,7 +72,8 @@ export class MoviesService {
       cast: 'Harrison Ford · Kelly McGillis · Lukas Haas',
       imageUrl:
         'https://image.tmdb.org/t/p/original/lDnC1Woa9nEnrwlKDxdFvHx2gDc.jpg',
-      coverUrl: 'https://media.ouest-france.fr/v1/pictures/f63008859997c69ee1cb5b837de4f3a4-witness-thriller-programme-tv.jpg?width=1260&sign=0c72e1f3c08ea3ee8b416c70fb0677c4780757eade308f1778ef3d7f46d054fe&client_id=bpservices',
+      coverUrl:
+        'https://media.ouest-france.fr/v1/pictures/f63008859997c69ee1cb5b837de4f3a4-witness-thriller-programme-tv.jpg?width=1260&sign=0c72e1f3c08ea3ee8b416c70fb0677c4780757eade308f1778ef3d7f46d054fe&client_id=bpservices',
     },
     {
       id: 'm5',
@@ -68,13 +86,106 @@ export class MoviesService {
       cast: 'Christian Slater · Samantha Mathis · Scott Paulin',
       imageUrl:
         'https://a.ltrbxd.com/resized/sm/upload/j7/2k/aq/21/5Re4KeKhTXRdTb52R31zNisGwqc-0-230-0-345-crop.jpg?v=46a71c3f77',
-      coverUrl: 'https://mutantreviewers.files.wordpress.com/2022/04/pump-up-the-volume.jpg?w=723&h=482',
+      coverUrl:
+        'https://mutantreviewers.files.wordpress.com/2022/04/pump-up-the-volume.jpg?w=723&h=482',
     },
-  ];
+  ];*/
 
-  //constructor() { }
+  private _movies = new BehaviorSubject<Movie[]>([]);
+  private movieArray: Movie[] = [];
+
+  constructor(private http: HttpClient, private authService: AuthService) {}
+
+  get movies() {
+    return this._movies.asObservable();
+  }
+
+  addMovie(
+    title: string,
+    releaseYear: number,
+    genre: string,
+    director: string,
+    cast: string,
+    description: string,
+    imageUrl: string,
+    coverUrl: string
+  ) {
+    let generatedId: string;
+
+    return this.http
+      .post<{ name: string }>(
+        'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json',
+        {
+          title,
+          releaseYear,
+          genre,
+          director,
+          cast,
+          description,
+          imageUrl,
+          coverUrl,
+        }
+      )
+      .pipe(
+        switchMap((resData) => {
+          generatedId = resData.name;
+          return this.movies;
+        }),
+        take(1),
+        tap((movies) => {
+          this._movies.next(
+            movies.concat({
+              id: generatedId,
+              title,
+              releaseYear,
+              genre,
+              director,
+              cast,
+              description,
+              imageUrl,
+              coverUrl,
+            })
+          );
+        })
+      );
+  }
+
+  getMovies() {
+    return this.http
+      .get<{ [key: string]: MovieData }>(
+        'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json'
+      )
+      .pipe(
+        map((moviesData) => {
+          const movies: Movie[] = [];
+
+          for (const key in moviesData) {
+            if (moviesData.hasOwnProperty(key)) {
+              movies.push({
+                id: key,
+                title: moviesData[key].title,
+                releaseYear: moviesData[key].releaseYear,
+                director: moviesData[key].director,
+                genre: moviesData[key].genre,
+                description: moviesData[key].description,
+                cast: moviesData[key].cast,
+                imageUrl: moviesData[key].imageUrl,
+                coverUrl: moviesData[key].coverUrl,
+              });
+            }
+          }
+          return movies;
+        }),
+        tap((movies) => {
+          this._movies.next(movies);
+        })
+      );
+  }
 
   getMovie(id: string | null) {
-    return this.movies.find((movie) => movie.id === id)!;
+    this._movies.subscribe((_movies) => {
+      this.movieArray = _movies;
+    });
+    return this.movieArray.find((movie) => movie.id === id)!;
   }
 }

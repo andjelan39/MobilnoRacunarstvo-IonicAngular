@@ -10,25 +10,17 @@
 </ion-header>
 
 <ion-content>
-  <form #f="ngForm" (ngSubmit)="onAddMovie()">
+  <form #f="ngForm" (ngSubmit)="onAddMovie()" id="form">
     <ion-grid>
       <ion-row>
         <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Movie Title</ion-label>
-            <ion-input type="text" ngModel name="title" required></ion-input>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="title" required placeholder="Enter movie title..."></ion-input>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Release Year</ion-label>
-            <ion-input type="text" ngModel name="releaseYear" required></ion-input>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="releaseYear" required placeholder="Enter release year..."></ion-input>
           </ion-item>
-        </ion-col>
-        <ion-col size-sm="6">
-          <ion-item>
+          <ion-item class="ion-margin-bottom inputField">
             <ion-select placeholder="Select genre" ngModel name="genre" required>
               <ion-select-option value="thriller">Thriller</ion-select-option>
               <ion-select-option value="action">Action</ion-select-option>
@@ -40,40 +32,31 @@
               <ion-select-option value="animated">Animated</ion-select-option>
             </ion-select>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Director</ion-label>
-            <ion-input type="text" ngModel name="director" required></ion-input>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="director" required placeholder="Enter movie director..."></ion-input>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Cast</ion-label>
-            <ion-textarea type="text" rows="2" ngModel name="cast" required></ion-textarea>
+          <ion-item class="ion-margin-bottom castField">
+            <ion-textarea type="text" rows="3" ngModel name="cast" required placeholder="Enter cast..."></ion-textarea>
           </ion-item>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size-sm="6" offset-sm="3">
-          <ion-item>
-            <ion-label position="floating">Description</ion-label>
+          <ion-item class="ion-margin-bottom areaField">
             <ion-textarea
               type="text"
-              rows="5"
+              rows="13"
               placeholder="Enter movie description..."
               ngModel name="description" required
             ></ion-textarea>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="imageUrl" required placeholder="Enter poster url..."></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="coverUrl" required placeholder="Enter cover photo url..."></ion-input>
           </ion-item>
         </ion-col>
       </ion-row>
       <ion-row>
         <ion-col>
-          <ion-button type="submit" color="primary" expand="block" [disabled]="f.invalid">
+          <ion-button type="submit" color="secondary" expand="block" shape="round" [disabled]="f.invalid" class="addButton">
             Add Movie
           </ion-button>
         </ion-col>
