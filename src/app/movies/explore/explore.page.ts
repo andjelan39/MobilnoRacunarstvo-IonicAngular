@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Movie } from '../movie.model';
-import { MoviesService } from '../movies.service';
+import { Movie } from '../../movie.model';
+import { MoviesService } from '../../movies.service';
 import { ModalController } from '@ionic/angular';
 import { AddMovieModalComponent } from '../add-movie-modal/add-movie-modal.component';
 import { Subscription } from 'rxjs';

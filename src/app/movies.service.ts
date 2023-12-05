@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Movie } from './movie.model';
 import { HttpClient } from '@angular/common/http';
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from './auth/auth.service';
 import { BehaviorSubject, map, switchMap, take, tap } from 'rxjs';
 
 interface MovieData {
@@ -13,6 +13,7 @@ interface MovieData {
   description: string;
   imageUrl: string;
   coverUrl: string;
+  userId: string;
 }
 
 @Injectable({
@@ -111,8 +112,42 @@ export class MoviesService {
     coverUrl: string
   ) {
     let generatedId: string;
+    let newMovie: Movie;
 
-    return this.http
+    return this.authService.userId.pipe(
+      take(1),
+      switchMap((userId) => {
+        newMovie = new Movie(
+          null,
+          title,
+          releaseYear,
+          director,
+          genre,
+          description,
+          cast,
+          imageUrl,
+          coverUrl,
+          userId
+        );
+
+        return this.http.post<{ name: string }>(
+          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json',
+          newMovie
+        );
+      }),
+      take(1),
+      switchMap((resData) => {
+        generatedId = resData.name;
+        return this.movies;
+      }),
+      take(1),
+      tap((movies) => {
+        newMovie.id = generatedId;
+        this._movies.next(movies.concat(newMovie));
+      })
+    );
+
+    /*return this.http
       .post<{ name: string }>(
         'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json',
         {
@@ -147,7 +182,7 @@ export class MoviesService {
             })
           );
         })
-      );
+      );*/
   }
 
   getMovies() {
@@ -161,17 +196,20 @@ export class MoviesService {
 
           for (const key in moviesData) {
             if (moviesData.hasOwnProperty(key)) {
-              movies.push({
-                id: key,
-                title: moviesData[key].title,
-                releaseYear: moviesData[key].releaseYear,
-                director: moviesData[key].director,
-                genre: moviesData[key].genre,
-                description: moviesData[key].description,
-                cast: moviesData[key].cast,
-                imageUrl: moviesData[key].imageUrl,
-                coverUrl: moviesData[key].coverUrl,
-              });
+              movies.push(
+                new Movie(
+                  key,
+                  moviesData[key].title,
+                  moviesData[key].releaseYear,
+                  moviesData[key].director,
+                  moviesData[key].genre,
+                  moviesData[key].description,
+                  moviesData[key].cast,
+                  moviesData[key].imageUrl,
+                  moviesData[key].coverUrl,
+                  moviesData[key].userId
+                )
+              );
             }
           }
           return movies;

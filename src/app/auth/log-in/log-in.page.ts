@@ -10,14 +10,18 @@ import { NgForm } from '@angular/forms';
 })
 export class LogInPage implements OnInit {
 
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onLogIn(form: NgForm) {
+
+    if (form.valid) {
+      this.authService.login(form.value).subscribe(resData => {
+        console.log('Login uspesno');
+        console.log(resData);
+        this.router.navigateByUrl('movies/tabs/explore');
+      });
+    }
   }
-
-  onLogIn(form:NgForm) {
-    this.authService.login();
-    this.router.navigateByUrl('movies/tabs/explore');
-  }
-
 }

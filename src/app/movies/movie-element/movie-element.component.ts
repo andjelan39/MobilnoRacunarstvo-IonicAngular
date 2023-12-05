@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { Movie } from '../movie.model';
+import { Movie } from '../../movie.model';
 import { AlertController } from '@ionic/angular';
 
 @Component({
@@ -18,7 +18,8 @@ export class MovieElementComponent implements OnInit {
     cast: 'Christian Bale',
     imageUrl:
       'https://m.media-amazon.com/images/M/MV5BZTM2ZGJmNjQtN2UyOS00NjcxLWFjMDktMDE2NzMyNTZlZTBiXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
-    coverUrl: 'https://pbs.twimg.com/media/C5EyOh9W8AARBNI.jpg'
+    coverUrl: 'https://pbs.twimg.com/media/C5EyOh9W8AARBNI.jpg',
+    userId: 'andjela'
   };
 
   constructor(private alertCtrl: AlertController) {}
