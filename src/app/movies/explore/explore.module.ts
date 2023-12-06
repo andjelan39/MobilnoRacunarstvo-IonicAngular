@@ -7,17 +7,18 @@ import { IonicModule } from '@ionic/angular';
 import { ExplorePageRoutingModule } from './explore-routing.module';
 
 import { ExplorePage } from './explore.page';
-import { MovieElementComponent } from '../movie-element/movie-element.component';
 import { AddMovieModalComponent } from '../add-movie-modal/add-movie-modal.component';
+import { MovieModule } from 'src/app/movie.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    ExplorePageRoutingModule
+    ExplorePageRoutingModule,
+    MovieModule
   ],
-  declarations: [ExplorePage, MovieElementComponent, AddMovieModalComponent],
+  declarations: [ExplorePage, AddMovieModalComponent],
   //entryComponents: [AddMovieModalComponent],
 })
 export class ExplorePageModule {}

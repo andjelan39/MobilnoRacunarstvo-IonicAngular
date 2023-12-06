@@ -1,3 +1,5 @@
+import { UserModel } from "./user.model";
+
 export class Movie {
   constructor(
     public id: string | null,
@@ -9,6 +11,6 @@ export class Movie {
     public cast: string,
     public imageUrl: string,
     public coverUrl: string,
-    public userId: string | null,
+    public addedByUser: UserModel | null
   ) {}
 }

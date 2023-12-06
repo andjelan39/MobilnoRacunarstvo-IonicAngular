@@ -7,13 +7,15 @@ import { IonicModule } from '@ionic/angular';
 import { BookmarksPageRoutingModule } from './bookmarks-routing.module';
 
 import { BookmarksPage } from './bookmarks.page';
+import { MovieModule } from 'src/app/movie.module';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     IonicModule,
-    BookmarksPageRoutingModule
+    BookmarksPageRoutingModule,
+    MovieModule
   ],
   declarations: [BookmarksPage]
 })

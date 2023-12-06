@@ -3,6 +3,7 @@ import { Movie } from './movie.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from './auth/auth.service';
 import { BehaviorSubject, map, switchMap, take, tap } from 'rxjs';
+import { UserModel } from './user.model';
 
 interface MovieData {
   title: string;
@@ -13,7 +14,7 @@ interface MovieData {
   description: string;
   imageUrl: string;
   coverUrl: string;
-  userId: string;
+  addedByUser: UserModel;
 }
 
 @Injectable({
@@ -90,15 +91,34 @@ export class MoviesService {
       coverUrl:
         'https://mutantreviewers.files.wordpress.com/2022/04/pump-up-the-volume.jpg?w=723&h=482',
     },
+    {
+      id: 'm6',
+      title: 'Jack's Back',
+      releaseYear: 1988,
+      director: 'Rowdy Herrington',
+      genre: 'crime',
+      description:
+        'A young doctor is suspected when a series of Jack the Ripper copycat killings is committed. However, when the doctor himself is murdered, his identical twin brother claims to have seen visions of the true killer. Police wonder if he could be the ripper. In the meantime, he tries to figure out what happened to his brother.',
+      cast: 'James Spader · Cynthia Gibb · Jim Haynie',
+      imageUrl:
+        'https://a.ltrbxd.com/resized/film-poster/2/3/1/0/1/23101-jack-s-back-0-230-0-345-crop.jpg?v=c7454c5a86',
+      coverUrl:
+        'https://blurayauthority.com/wp-content/uploads/2016/03/jacksbackhd_pub.png',
+    },
   ];*/
 
   private _movies = new BehaviorSubject<Movie[]>([]);
+  private myMovies = new BehaviorSubject<Movie[]>([]);
   private movieArray: Movie[] = [];
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   get movies() {
     return this._movies.asObservable();
+  }
+
+  get mymovies() {
+    return this.myMovies.asObservable();
   }
 
   addMovie(
@@ -113,10 +133,16 @@ export class MoviesService {
   ) {
     let generatedId: string;
     let newMovie: Movie;
+    let fetchedUser: UserModel | null;
 
-    return this.authService.userId.pipe(
+    return this.authService.user.pipe(
       take(1),
-      switchMap((userId) => {
+      switchMap((user) => {
+        fetchedUser = user;
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
         newMovie = new Movie(
           null,
           title,
@@ -127,11 +153,11 @@ export class MoviesService {
           cast,
           imageUrl,
           coverUrl,
-          userId
+          fetchedUser
         );
-
         return this.http.post<{ name: string }>(
-          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json',
+          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json?auth=' +
+            token,
           newMovie
         );
       }),
@@ -146,78 +172,44 @@ export class MoviesService {
         this._movies.next(movies.concat(newMovie));
       })
     );
-
-    /*return this.http
-      .post<{ name: string }>(
-        'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json',
-        {
-          title,
-          releaseYear,
-          genre,
-          director,
-          cast,
-          description,
-          imageUrl,
-          coverUrl,
-        }
-      )
-      .pipe(
-        switchMap((resData) => {
-          generatedId = resData.name;
-          return this.movies;
-        }),
-        take(1),
-        tap((movies) => {
-          this._movies.next(
-            movies.concat({
-              id: generatedId,
-              title,
-              releaseYear,
-              genre,
-              director,
-              cast,
-              description,
-              imageUrl,
-              coverUrl,
-            })
-          );
-        })
-      );*/
   }
 
   getMovies() {
-    return this.http
-      .get<{ [key: string]: MovieData }>(
-        'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json'
-      )
-      .pipe(
-        map((moviesData) => {
-          const movies: Movie[] = [];
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: MovieData }>(
+          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json?auth=' +
+            token
+        );
+      }),
+      map((moviesData) => {
+        const movies: Movie[] = [];
 
-          for (const key in moviesData) {
-            if (moviesData.hasOwnProperty(key)) {
-              movies.push(
-                new Movie(
-                  key,
-                  moviesData[key].title,
-                  moviesData[key].releaseYear,
-                  moviesData[key].director,
-                  moviesData[key].genre,
-                  moviesData[key].description,
-                  moviesData[key].cast,
-                  moviesData[key].imageUrl,
-                  moviesData[key].coverUrl,
-                  moviesData[key].userId
-                )
-              );
-            }
+        for (const key in moviesData) {
+          if (moviesData.hasOwnProperty(key)) {
+            movies.push(
+              new Movie(
+                key,
+                moviesData[key].title,
+                moviesData[key].releaseYear,
+                moviesData[key].director,
+                moviesData[key].genre,
+                moviesData[key].description,
+                moviesData[key].cast,
+                moviesData[key].imageUrl,
+                moviesData[key].coverUrl,
+                moviesData[key].addedByUser
+              )
+            );
           }
-          return movies;
-        }),
-        tap((movies) => {
-          this._movies.next(movies);
-        })
-      );
+        }
+        return movies;
+      }),
+      tap((movies) => {
+        this._movies.next(movies);
+      })
+    );
   }
 
   getMovie(id: string | null) {
@@ -225,5 +217,49 @@ export class MoviesService {
       this.movieArray = _movies;
     });
     return this.movieArray.find((movie) => movie.id === id)!;
+  }
+
+  getMyMovies() {
+    let userLogged: UserModel | null;
+    return this.authService.user.pipe(
+      take(1),
+      switchMap((user) => {
+        userLogged = user;
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
+        return this.http.get<{ [key: string]: MovieData }>(
+          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies.json?auth=' +
+            token
+        );
+      }),
+      take(1),
+      switchMap((moviesData) => {
+        const movies: Movie[] = [];
+        for (const key in moviesData) {
+          if (
+            moviesData.hasOwnProperty(key) &&
+            userLogged != null &&
+            userLogged.email === moviesData[key].addedByUser.email
+          ) {
+            movies.push({
+              id: key,
+              title: moviesData[key].title,
+              releaseYear: moviesData[key].releaseYear,
+              director: moviesData[key].director,
+              genre: moviesData[key].genre,
+              description: moviesData[key].description,
+              cast: moviesData[key].cast,
+              imageUrl: moviesData[key].imageUrl,
+              coverUrl: moviesData[key].coverUrl,
+              addedByUser: moviesData[key].addedByUser,
+            });
+          }
+        }
+        this.myMovies.next(movies);
+        return movies;
+      })
+    );
   }
 }

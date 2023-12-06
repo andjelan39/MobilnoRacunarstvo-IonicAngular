@@ -42,11 +42,23 @@ export class AuthService {
     );
   }
 
-  get userId() {
+  get user() {
     return this._user.asObservable().pipe(
       map((user) => {
         if (user) {
-          return user.id;
+          return user;
+        } else {
+          return null;
+        }
+      })
+    );
+  }
+
+  get token() {
+    return this._user.asObservable().pipe(
+      map((user) => {
+        if (user) {
+          return user.token;
         } else {
           return null;
         }
@@ -61,6 +73,8 @@ export class AuthService {
         'https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=' +
           environment.firebaseAPIKey,
         {
+          name: user.name,
+          lastname: user.lastname,
           email: user.email,
           password: user.password,
           returnSecureToken: true,
