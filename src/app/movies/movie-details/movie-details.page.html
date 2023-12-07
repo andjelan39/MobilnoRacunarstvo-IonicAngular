@@ -15,7 +15,7 @@
         <ion-col size="8">
           <h4>{{movie.title}}</h4>
           <span> DIRECTED BY <br /><b>{{movie.director}}</b></span>
-          <p class="span-year-genre">{{movie.releaseYear}} · {{movie.genre}}</p>
+          <p class="span-year-genre">{{movie.releaseYear}} · {{movie.genre}} · {{movie.length}} </p>
           <br />
         </ion-col>
         <ion-col size="4">
@@ -40,30 +40,45 @@
     </ion-grid>
   </div>
   <div class="reviews">
-    <ion-grid>
-      <ion-row>
-        <ion-col size="2">
-          <img src="assets/user.png" class="avatar" />
-        </ion-col>
-        <ion-col size="10">
-          <span><b>andjela@gmail.com</b></span>
-          <p class="review-text">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam.
-          </p>
-        </ion-col>
-      </ion-row>
-      <ion-row>
-        <ion-col size="2">
-          <img src="assets/user.png" class="avatar" />
-        </ion-col>
-        <ion-col size="10">
-          <span><b>marko@gmail.com</b></span>
-          <p class="review-text">Such a great movie.</p>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
+    <ion-list>
+      <app-review-element
+        *ngFor="let review of reviews"
+        [review]="review"
+      ></app-review-element>
+    </ion-list>
     <br />
+  </div>
+  <div class="add-review-form">
+    <form #reviewForm="ngForm" id="form" (ngSubmit)="addMovieReview(reviewForm)">
+      <ion-grid>
+        <ion-row>
+          <ion-col>
+            <span> ADD REVIEW <br /></span>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col>
+            <ion-item class="areaField">
+              <ion-textarea
+                type="text"
+                rows="4"
+                placeholder="Enter your review..."
+                ngModel
+                name="review"
+                required
+                #review="ngModel"
+              ></ion-textarea>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+        <ion-row>
+          <ion-col size="3">
+            <ion-button type="submit" expand="block" size="small" [disabled]="reviewForm.invalid">
+              ADD
+            </ion-button>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </form>
   </div>
 </ion-content>

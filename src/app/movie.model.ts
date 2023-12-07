@@ -7,6 +7,7 @@ export class Movie {
     public releaseYear: number,
     public director: string,
     public genre: string,
+    public length: string,
     public description: string,
     public cast: string,
     public imageUrl: string,

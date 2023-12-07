@@ -8,10 +8,13 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-list>
-    <app-added-movie-element
-      *ngFor="let movie of movies"
-      [movie]="movie"
-    ></app-added-movie-element>
-  </ion-list>
+  <div class="movie-list">
+    <h6>ADDED MOVIES</h6>
+    <ion-list>
+      <app-added-movie-element
+        *ngFor="let movie of movies"
+        [movie]="movie"
+      ></app-added-movie-element>
+    </ion-list>
+  </div>
 </ion-content>

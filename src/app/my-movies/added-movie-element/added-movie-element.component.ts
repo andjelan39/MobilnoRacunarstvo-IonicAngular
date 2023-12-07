@@ -14,6 +14,7 @@ export class AddedMovieElementComponent  implements OnInit {
     releaseYear: 2000,
     director: 'Mary Harron',
     genre: 'horror',
+    length: '120 min',
     description: 'Description',
     cast: 'Christian Bale',
     imageUrl:

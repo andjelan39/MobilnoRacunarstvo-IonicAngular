@@ -30,6 +30,7 @@ export class AddMovieModalComponent implements OnInit {
           genre: this.form.value['genre'],
           director: this.form.value['director'],
           cast: this.form.value['cast'],
+          length: this.form.value['length'],
           description: this.form.value['description'],
           imageUrl: this.form.value['imageUrl'],
           coverUrl: this.form.value['coverUrl']

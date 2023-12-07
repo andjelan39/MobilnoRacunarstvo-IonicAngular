@@ -52,6 +52,7 @@ export class ExplorePage implements OnInit, OnDestroy {
               resultData.data.movieData.genre,
               resultData.data.movieData.director,
               resultData.data.movieData.cast,
+              resultData.data.movieData.length,
               resultData.data.movieData.description,
               resultData.data.movieData.imageUrl,
               resultData.data.movieData.coverUrl
