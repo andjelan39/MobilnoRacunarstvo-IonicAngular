@@ -1,0 +1,76 @@
+.inputField {
+  border-radius: 20px;
+  height: 50px;
+  box-shadow: 1px 8px 8px 0px rgba(0, 0, 0, 0.08);
+  --highlight-height: 0px;
+  --background: rgb(55, 62, 70);
+
+  ion-input,
+  ion-select {
+    font-size: 17px;
+    --padding-start: 5px;
+    --padding-bottom: 7px;
+    color: #dee0e3;
+  }
+}
+
+ion-content {
+  #header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    h1 {
+      font-weight: 600;
+      font-size: 24px;
+      margin-bottom: 5px;
+      margin-top: 75px;
+    }
+  }
+
+  p {
+    color: #eb445a;
+    font-size: 12px;
+    margin-top: -27px;
+  }
+
+  #form {
+    margin-top: 15px;
+    padding: 0 17px;
+  }
+}
+
+.areaField {
+  height: 280px;
+  border-radius: 20px;
+  box-shadow: 1px 8px 8px 0px rgba(0, 0, 0, 0.08);
+  --highlight-height: 0px;
+  --background: rgb(55, 62, 70);
+
+  ion-textarea {
+    font-size: 17px;
+    --padding-start: 5px;
+    --padding-bottom: 7px;
+    color: #dee0e3;
+  }
+}
+
+.castField {
+  height: 90px;
+  border-radius: 20px;
+  box-shadow: 1px 8px 8px 0px rgba(0, 0, 0, 0.08);
+  --highlight-height: 0px;
+  --background: rgb(55, 62, 70);
+
+  ion-textarea {
+    font-size: 17px;
+    --padding-start: 5px;
+    --padding-bottom: 7px;
+    color: #dee0e3;
+  }
+}
+
+.addButton {
+  margin-top: -5px;
+  margin-bottom: 15px;
+}

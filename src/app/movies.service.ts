@@ -56,7 +56,7 @@ export class MoviesService {
         'A wild, freeform, Rabelaisian trip through the darkest recesses of Edinburgh low-life, focusing on Mark Renton and his attempt to give up his heroin habit, and how the latter affects his relationship with family and friends: Sean Connery wannabe Sick Boy, dimbulb Spud and a psycho Begbie.',
       cast: 'Ewan McGregor · Jonny Lee Miller · Ewen Bremner',
       imageUrl:
-        'https://i.etsystatic.com/32739938/r/il/500217/3617286456/il_794xN.3617286456_roo0.jpg',
+        'https://a.ltrbxd.com/resized/film-poster/5/1/4/9/7/51497-trainspotting-0-230-0-345-crop.jpg?v=c8597f6cb5',
       coverUrl: 'https://so-s.nflximg.net/soa1/849/515319849.jpg',
     },
     {
@@ -138,6 +138,15 @@ export class MoviesService {
 
   get reviews() {
     return this._reviews.asObservable();
+  }
+
+  movieForEditing!: Movie;
+
+  setEdit(movie: Movie) {
+    this.movieForEditing = movie;
+  }
+  getEdit() {
+    return this.movieForEditing;
   }
 
   addMovie(
@@ -282,6 +291,102 @@ export class MoviesService {
         }
         this.myMovies.next(movies);
         return movies;
+      })
+    );
+  }
+
+  editMovie(
+    id: string | null,
+    title: string,
+    releaseYear: number,
+    genre: string,
+    director: string,
+    cast: string,
+    length: string,
+    description: string,
+    imageUrl: string,
+    coverUrl: string
+  ) {
+    var index: number;
+    let loggedUser: UserModel | null;
+    let newMovie: Movie;
+    return this.authService.user.pipe(
+      take(1),
+      switchMap((user) => {
+        loggedUser = user;
+        newMovie = new Movie(
+          id,
+          title,
+          releaseYear,
+          director,
+          genre,
+          length,
+          description,
+          cast,
+          imageUrl,
+          coverUrl,
+          user
+        );
+        return this.authService.token;
+      }),
+      take(1),
+      switchMap((token) => {
+        return this.http.put<{ name: string }>(
+          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies/' +
+            id +
+            '/.json?auth=' +
+            token,
+          newMovie
+        );
+      }),
+      take(1),
+      switchMap((resData) => {
+        return this.myMovies;
+      }),
+      take(1),
+      tap((movies) => {
+        index = movies.findIndex((movie) => movie.id == newMovie.id);
+        var updatedMovie = [...movies];
+        const movie = updatedMovie[index];
+        updatedMovie[index] = {
+          id: id,
+          title: title,
+          releaseYear: releaseYear,
+          director: director,
+          genre: genre,
+          length: length,
+          description: description,
+          cast: cast,
+          imageUrl: imageUrl,
+          coverUrl: coverUrl,
+          addedByUser: loggedUser,
+        };
+        this.myMovies.next(updatedMovie);
+      })
+    );
+  }
+
+  deleteMovie(deleteMovie: Movie) {
+    var index: number;
+    return this.authService.token.pipe(
+      take(1),
+      switchMap((token) => {
+        return this.http.delete<{ name: string }>(
+          'https://movie-app-flicks-default-rtdb.europe-west1.firebasedatabase.app/movies/' +
+            deleteMovie.id +
+            '.json?auth=' +
+            token
+        );
+      }),
+      switchMap((movieData) => {
+        return this.myMovies;
+      }),
+      take(1),
+      tap((movies) => {
+        index = movies.findIndex((movie) => movie.id == deleteMovie.id);
+        var updatedMovies = [...movies];
+        updatedMovies.splice(index, 1);
+        this.myMovies.next(updatedMovies);
       })
     );
   }

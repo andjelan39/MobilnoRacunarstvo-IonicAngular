@@ -26,33 +26,5 @@ export class MovieElementComponent implements OnInit {
   constructor(private alertCtrl: AlertController) {}
 
   ngOnInit() {}
-
-  openAlert(event: { preventDefault: any; stopPropagation: () => void }) {
-    event.stopPropagation();
-    event.preventDefault();
-
-    this.alertCtrl
-      .create({
-        header: 'Like movie',
-        message: 'Are you sure you want to like this movie?',
-        buttons: [
-          {
-            text: 'Like',
-            handler: () => {
-              console.log('Liked');
-            },
-          },
-          {
-            text: 'Cancel',
-            role: 'cancel',
-            handler: () => {
-              console.log('Not liked');
-            },
-          },
-        ],
-      })
-      .then((alert: HTMLIonAlertElement) => {
-        alert.present();
-      });
-  }
+  
 }

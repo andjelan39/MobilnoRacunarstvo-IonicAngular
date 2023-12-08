@@ -13,8 +13,8 @@ const routes: Routes = [
         loadChildren: () => import('./added-movies/added-movies.module').then( m => m.AddedMoviesPageModule)
       },
       {
-        path: 'search',
-        loadChildren: () => import('./search/search.module').then( m => m.SearchPageModule)
+        path: 'settings',
+        loadChildren: () => import('./settings/settings.module').then( m => m.SettingsPageModule)
       },
       {
         path: '',

@@ -4,20 +4,13 @@
       <ion-col size="3">
         <img [src]="movie.imageUrl" class="movie-card-img" />
       </ion-col>
-      <ion-col size="8">
+      <ion-col size="9">
         <h6>{{ movie.title }} ({{ movie.releaseYear }})</h6>
         <span>Director: <b>{{ movie.director }}</b></span>
         <p class="span-year-genre">
           <ion-icon name="time-outline" size="small" class="icon"></ion-icon>
           <span class="text"> {{ movie.length }} · {{ movie.genre }}</span>
         </p>
-      </ion-col>
-      <ion-col size="1">
-        <ion-icon
-          name="bookmark-outline"
-          (click)="openAlert($event)"
-          class="bookmark"
-        ></ion-icon>
       </ion-col>
     </ion-row>
   </ion-grid>

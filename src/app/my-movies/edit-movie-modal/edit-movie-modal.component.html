@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Edit Movie</ion-title>
+    <ion-buttons slot="primary">
+      <ion-button (click)="onCancel()">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form #f="ngForm" (ngSubmit)="onEditMovie()" id="form">
+    <ion-grid>
+      <ion-row>
+        <ion-col size-sm="6" offset-sm="3">
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="title" required [(ngModel)]="defaultTitle"></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="releaseYear" required [(ngModel)]="defaultReleaseYear"></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="length" required [(ngModel)]="defaultLength"></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-select [(ngModel)]="defaultGenre" ngModel name="genre" required>
+              <ion-select-option value="thriller">Thriller</ion-select-option>
+              <ion-select-option value="action">Action</ion-select-option>
+              <ion-select-option value="comedy">Comedy</ion-select-option>
+              <ion-select-option value="drama">Drama</ion-select-option>
+              <ion-select-option value="crime">Crime</ion-select-option>
+              <ion-select-option value="romance">Romance</ion-select-option>
+              <ion-select-option value="horror">Horror</ion-select-option>
+              <ion-select-option value="animated">Animated</ion-select-option>
+            </ion-select>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="director" required [(ngModel)]="defaultDirector"></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom castField">
+            <ion-textarea type="text" rows="3" ngModel name="cast" required [(ngModel)]="defaultCast"></ion-textarea>
+          </ion-item>
+          <ion-item class="ion-margin-bottom areaField">
+            <ion-textarea
+              type="text"
+              rows="13"
+              [(ngModel)]="defaultDescription"
+              ngModel name="description" required
+            ></ion-textarea>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="imageUrl" required [(ngModel)]="defaultImageUrl"></ion-input>
+          </ion-item>
+          <ion-item class="ion-margin-bottom inputField">
+            <ion-input type="text" ngModel name="coverUrl" required [(ngModel)]="defaultCoverUrl"></ion-input>
+          </ion-item>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <ion-button type="submit" color="secondary" expand="block" shape="round" class="addButton" [disabled]="f.invalid">
+            Edit Movie
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

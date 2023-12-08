@@ -8,6 +8,7 @@ import { AddedMoviesPageRoutingModule } from './added-movies-routing.module';
 
 import { AddedMoviesPage } from './added-movies.page';
 import { AddedMovieElementComponent } from '../added-movie-element/added-movie-element.component';
+import { EditMovieModalComponent } from '../edit-movie-modal/edit-movie-modal.component';
 
 @NgModule({
   imports: [
@@ -16,6 +17,6 @@ import { AddedMovieElementComponent } from '../added-movie-element/added-movie-e
     IonicModule,
     AddedMoviesPageRoutingModule
   ],
-  declarations: [AddedMoviesPage, AddedMovieElementComponent]
+  declarations: [AddedMoviesPage, AddedMovieElementComponent, EditMovieModalComponent]
 })
 export class AddedMoviesPageModule {}
