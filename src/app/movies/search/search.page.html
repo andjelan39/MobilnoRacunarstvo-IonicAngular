@@ -8,5 +8,20 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  
+  <ion-searchbar
+    show-clear-button="focus"
+    placeholder="Enter movie title"
+    class="custom"
+    (ionInput)="handleInput($event)"
+  ></ion-searchbar>
+  <div class="content-wrapper">
+    <ion-list>
+      <app-search-movie-element
+        *ngFor="let result of results"
+        [movie]="result"
+        [routerLink]="result.id"
+      >
+      </app-search-movie-element>
+    </ion-list>
+  </div>
 </ion-content>

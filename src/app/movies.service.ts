@@ -41,7 +41,7 @@ export class MoviesService {
         'In New York City in 1987, a handsome, young urban professional, Patrick Bateman, lives a second life as a gruesome serial killer by night. The cast is filled by the detective, the fiance, the mistress, the coworker, and the secretary. This is a biting, wry comedy examining the elements that make a man a monster.',
       cast: 'Christian Bale · Willem Dafoe · Chloe Sevigny',
       imageUrl:
-        'https://m.media-amazon.com/images/M/MV5BZTM2ZGJmNjQtN2UyOS00NjcxLWFjMDktMDE2NzMyNTZlZTBiXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_.jpg',
+        'https://a.ltrbxd.com/resized/sm/upload/5b/u9/av/il/ecoY7zJL6Ub3URP1oPhPfGflEjV-0-230-0-345-crop.jpg?v=8126850315',
       coverUrl:
         'https://i.guim.co.uk/img/media/5ca5fa80076dbe8f0ea2ad399dcc655d6667ed82/0_48_3504_2103/master/3504.jpg?width=1200&quality=85&auto=format&fit=max&s=185dbcbc51bcecf499da469cc58dcf02',
     },
@@ -70,7 +70,7 @@ export class MoviesService {
         'This Hong Kong-set crime drama features two intertwined storylines: one tells the story of a hitman wishing to leave the criminal underworld, and his agent, who is infatuated with him. The other story is of a mute ex-convict on the run from the police and a mentally unstable woman dumped by her boyfriend.',
       cast: 'Leon Lai · Michelle Reis · Takeshi Kaneshiro',
       imageUrl:
-        'https://preview.redd.it/whats-your-favorite-movie-poster-by-color-day-4-green-v0-5dfmizri1jub1.png?width=640&crop=smart&auto=webp&s=a31670212902272df20b0bec718c7911fa3edb12',
+        'https://a.ltrbxd.com/resized/film-poster/4/5/4/8/9/45489-fallen-angels-0-230-0-345-crop.jpg?v=26d8dd7207',
       coverUrl:
         'https://miro.medium.com/v2/resize:fit:1400/1*2yXRX4hNnGRoVWIjeAkfTg.jpeg',
     },
